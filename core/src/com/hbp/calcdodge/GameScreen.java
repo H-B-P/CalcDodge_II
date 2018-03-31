@@ -51,12 +51,13 @@ public class GameScreen extends MetaScreen {
 	
 	OrthographicCamera camera;
 	private Texture pod_t;
-	private TextureRegion pod_tr;
-	private Rectangle pod_r;
 	
-	private Rectangle pod_r_vert;
-	private Rectangle pod_r_horz;
-	private Rectangle pod_r_horzvert;
+	
+	private Pod pod_main;
+	
+	private Pod pod_vert;
+	private Pod pod_horz;
+	private Pod pod_horzvert;
 	
 	private Texture statusbar_t;
 	
@@ -65,9 +66,7 @@ public class GameScreen extends MetaScreen {
 	
 	private Texture grid_t;
 	
-	private Array<Rectangle> pods_r;
-	private Polygon pod_poly;
-	private Array<Polygon> pods_poly;
+	private Array<Pod> pods;
 	private float pod_x;
 	private float pod_y;
 	private float pod_ydot;
@@ -150,14 +149,14 @@ public class GameScreen extends MetaScreen {
 		
 		super(gam, play_the_sound);
 		
-		GAMESPEED=100;
-		   ORI_GAMESPEED=100;
+		GAMESPEED=200;
+		   ORI_GAMESPEED=200;
 		   LEVEL="xdotydot";
 		   MODE="alt";
 		   ANDROID=false;
 		 this.game = gam;
 	     
-		 shields=4;
+		 shields=2;
 		 hits=0;
 		 
 		 if (MODE.equals("wall")){
@@ -212,35 +211,23 @@ public class GameScreen extends MetaScreen {
 			shield_three_t=new Texture(Gdx.files.internal("shield_layer_three.png"));
 			shield_four_t=new Texture(Gdx.files.internal("shield_layer_four.png"));
 			
-		pod_tr= new TextureRegion(pod_t);
 		
-		pod_r= new Rectangle();
-		pods_r= new Array<Rectangle>();
-		pod_r.width=40;
-		pod_r.height=40;
-		pod_r.x=pod_x*80+160-20;
-		pod_r.y=pod_y*80+320-20;
-
-			pod_r_horz= new Rectangle();
-			pod_r_vert= new Rectangle();
-			pod_r_horzvert= new Rectangle();
-			pod_r_horz.width=40;
-			pod_r_vert.width=40;
-			pod_r_horzvert.width=40;
-			pod_r_horz.height=40;
-			pod_r_vert.height=40;
-			pod_r_horzvert.height=40;
-			pod_r_horz.x= 160-20;
-			pod_r_vert.x=160-20;
-			pod_r_horzvert.x=160-20;
-			pod_r_horz.y=320-20;
-			pod_r_vert.y=320-20;
-			pod_r_horzvert.y=320-20;
+			pods= new Array<Pod>();
 			
-			pods_r.add(pod_r);
-			pods_r.add(pod_r_horz);
-			pods_r.add(pod_r_vert);
-			pods_r.add(pod_r_horzvert);
+		pod_main= new Pod();
+		pod_main.pod_r.x=pod_x*80+160-20;
+		pod_main.pod_r.y=pod_y*80+320-20;
+		
+		pod_horz=new Pod();
+		
+			pod_horz= new Pod();
+			pod_vert= new Pod();
+			pod_horzvert= new Pod();
+			
+			pods.add(pod_main);
+			pods.add(pod_horz);
+			pods.add(pod_vert);
+			pods.add(pod_horzvert);
 		
 		realityBox=new Rectangle();
 		
@@ -253,13 +240,6 @@ public class GameScreen extends MetaScreen {
 		System.out.println(realityBox.width);
 		System.out.println(realityBox.height);
 		System.out.println(realityBox.x);
-		
-		pp_input=new float[]{pod_r.x, pod_r.y, pod_r.x+pod_r.width, pod_r.y, pod_r.x+pod_r.width, pod_r.y+pod_r.height, pod_r.x, pod_r.y+pod_r.height};
-		pod_poly= new Polygon(pp_input);
-		
-		pods_poly= new Array<Polygon>();
-		
-		pods_poly.add(pod_poly);
 		
 		
 		camera = new OrthographicCamera();
@@ -344,24 +324,22 @@ public class GameScreen extends MetaScreen {
 		   batch.begin();
 		   
 		   if (!HAVE_WE_EXPLODED){
-			   batch.draw(pod_tr, pod_r.x-10, pod_r.y-10);
-			   if (shields>=1){
-				   batch.draw(shield_one_t, pod_r.x-6, pod_r.y-6);
-			   }
-			   if (shields>=2){
-				   batch.draw(shield_two_t, pod_r.x-11, pod_r.y-11);
-			   }
-			   if (shields>=3){
-				   batch.draw(shield_three_t, pod_r.x-16, pod_r.y-16);
-			   }
-			   if (shields>=4){
-				   batch.draw(shield_four_t, pod_r.x-21, pod_r.y-21);
-			   }
-			   //batch.draw(pod_tr, pod_r.x-10, pod_r.y-10, 30, 30, 60, 60, 1, 1, 0);
-			   batch.draw(pod_tr, pod_r_horz.x-10, pod_r_horz.y-10, 30, 30, 60, 60, 1, 1, 0);
-			   batch.draw(pod_tr, pod_r_vert.x-10, pod_r_vert.y-10, 30, 30, 60, 60, 1, 1, 0);
-			   batch.draw(pod_tr, pod_r_horzvert.x-10, pod_r_horzvert.y-10, 30, 30, 60, 60, 1, 1, 0);
 			   
+			   for (Pod pod: pods){
+				   batch.draw(pod_t, pod.pod_r.x, pod.pod_r.y);
+				   if (shields>=1){
+					   batch.draw(shield_one_t, pod.shield_one_r.x, pod.shield_one_r.y);
+				   }
+				   if (shields>=2){
+					   batch.draw(shield_two_t, pod.shield_two_r.x, pod.shield_two_r.y);
+				   }
+				   if (shields>=3){
+					   batch.draw(shield_three_t, pod.shield_three_r.x, pod.shield_three_r.y);
+				   }
+				   if (shields>=4){
+					   batch.draw(shield_four_t, pod.shield_four_r.x, pod.shield_four_r.y);
+				   }
+			   }
 		   }
 		   if (HAVE_WE_EXPLODED){
 			   for(Kaboom boom: explosions) {
@@ -447,7 +425,15 @@ public class GameScreen extends MetaScreen {
 			   }
 			   
 			   if (seconds==3){
-				   dots.add(new Dot(1,5,true));
+				   dots.add(new Dot_vert(0,1,5));
+			   }
+			   
+			   if (seconds==5){
+				   dots.add(new Dot_vert(1,1,6));
+			   }
+			   
+			   if (seconds==5){
+				   dots.add(new Dot_vert(-1,-1,6));
 			   }
 			   
 			   
@@ -602,33 +588,32 @@ public class GameScreen extends MetaScreen {
 			   }
 			   
 		   
-		   pod_r.setCenter(pod_x*UNIT_LENGTH_IN_PIXELS+160, pod_y*UNIT_LENGTH_IN_PIXELS+240);
+		   pod_main.pod_r.setCenter(pod_x*UNIT_LENGTH_IN_PIXELS+160, pod_y*UNIT_LENGTH_IN_PIXELS+240);
 		   
-			   pod_r_horz.y=pod_r.y;
-			   pod_r_vert.x=pod_r.x;
+			   pod_horz.pod_r.y=pod_main.pod_r.y;
+			   pod_vert.pod_r.x=pod_main.pod_r.x;
 			   if (pod_x<0){
-				   pod_r_horz.x=pod_r.x+SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
-				   pod_r_horzvert.x=pod_r.x+SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
+				   pod_horz.pod_r.x=pod_main.pod_r.x+SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
+				   pod_horzvert.pod_r.x=pod_main.pod_r.x+SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
 			   }
 			   else{
-				   pod_r_horz.x=pod_r.x-SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
-				   pod_r_horzvert.x=pod_r.x-SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
+				   pod_horz.pod_r.x=pod_main.pod_r.x-SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
+				   pod_horzvert.pod_r.x=pod_main.pod_r.x-SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
 			   }
 			   if (pod_y<0){
-				   pod_r_vert.y=pod_r.y+SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
-				   pod_r_horzvert.y=pod_r.y+SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
+				   pod_vert.pod_r.y=pod_main.pod_r.y+SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
+				   pod_horzvert.pod_r.y=pod_main.pod_r.y+SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
 			   }
 			   else{
-				   pod_r_vert.y=pod_r.y-SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
-				   pod_r_horzvert.y=pod_r.y-SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
+				   pod_vert.pod_r.y=pod_main.pod_r.y-SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
+				   pod_horzvert.pod_r.y=pod_main.pod_r.y-SHIP_BOUNDARY_DIST*2*UNIT_LENGTH_IN_PIXELS;
 			   }
+			   
+			   pod_main.update_shields();
+			   pod_horz.update_shields();
+			   pod_vert.update_shields();
+			   pod_horzvert.update_shields();
 		   
-		   
-		   //pp_input=new float[]{-pod_r.width/2, -pod_r.height/2, pod_r.width/2, -pod_r.height/2, pod_r.width/2, pod_r.height/2, -pod_r.width/2, pod_r.height/2};
-		   pp_input=new float[]{pod_r.x, pod_r.y, pod_r.x+pod_r.width, pod_r.y, pod_r.x+pod_r.width, pod_r.y+pod_r.height, pod_r.x, pod_r.y+pod_r.height};
-		   pod_poly= new Polygon(pp_input);
-		   pod_poly.setOrigin(pod_r.x+20,pod_r.y+20);
-		   pod_poly.setRotation(0);
 		   
 		   Iterator<Dot> iter = dots.iterator();
 		   
@@ -645,30 +630,40 @@ public class GameScreen extends MetaScreen {
 		     //if(Rectangle_collides_with_Polygon(dot.rect,pod_poly) && !HAVE_WE_EXPLODED && dot.rect.overlaps(realityBox)){
 		     if(!HAVE_WE_EXPLODED && realityBox.overlaps(dot.rect)){
 		    	 Intersector.intersectRectangles(realityBox, dot.rect, cotestrec);
-		    	 if ((pod_r.overlaps(cotestrec)|| pod_r_horz.overlaps(cotestrec) || pod_r_vert.overlaps(cotestrec) ||pod_r_horzvert.overlaps(cotestrec))){
-			    	 System.out.println("YES");
-			    	 System.out.println(dot.rect.x);
-			    	 System.out.println(dot.rect.y);
+		    	 if (shields>=4){
+		    		 if ((pod_main.shield_four_r.overlaps(cotestrec)|| pod_horz.shield_four_r.overlaps(cotestrec) || pod_vert.shield_four_r.overlaps(cotestrec) ||pod_horzvert.shield_four_r.overlaps(cotestrec))){
+		    			 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
+				    	 shields-=1;
+				    	 iter.remove();
+		    		 }
+		    	 }
+		    	 else if (shields>=3){
+		    		 if ((pod_main.shield_three_r.overlaps(cotestrec)|| pod_horz.shield_three_r.overlaps(cotestrec) || pod_vert.shield_three_r.overlaps(cotestrec) ||pod_horzvert.shield_three_r.overlaps(cotestrec))){
+		    			 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
+				    	 shields-=1;
+				    	 iter.remove();
+		    		 }
+		    	 }
+		    	 else if (shields>=2){
+		    		 if ((pod_main.shield_two_r.overlaps(cotestrec)|| pod_horz.shield_two_r.overlaps(cotestrec) || pod_vert.shield_two_r.overlaps(cotestrec) ||pod_horzvert.shield_two_r.overlaps(cotestrec))){
+		    			 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
+				    	 shields-=1;
+				    	 iter.remove();
+		    		 }
+		    	 }
+		    	 else if (shields>=1){
+		    		 if ((pod_main.shield_one_r.overlaps(cotestrec)|| pod_horz.shield_one_r.overlaps(cotestrec) || pod_vert.shield_one_r.overlaps(cotestrec) ||pod_horzvert.shield_one_r.overlaps(cotestrec))){
+		    			 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
+				    	 shields-=1;
+				    	 iter.remove();
+		    		 }
+		    	 }
+		    	 else if ((pod_main.pod_r.overlaps(cotestrec)|| pod_horz.pod_r.overlaps(cotestrec) || pod_vert.pod_r.overlaps(cotestrec) ||pod_horzvert.pod_r.overlaps(cotestrec))){
 			    	 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
-			    	 hits+=1;
 			    	 iter.remove();
-			    	 
-			    	//HAVE_WE_EXPLODED=true;
-			    	 //Iterator<Rectangle> iterdie = pods_r.iterator();
-			    	 //while (iterdie.hasNext()){
-			    	//	 Rectangle a_pod=iterdie.next();
-			    	//	 spawnExplosion(a_pod.x, a_pod.y);
-			    	// }
+			    	 HAVE_WE_EXPLODED=true;
 		    	 }
 		     }
-		     else{
-		    	 //System.out.println("NO");
-		     }
-		     //System.out.println(dot.rect.x + ", " + dot.rect.y);
-		     //System.out.println(pod_poly.getTransformedVertices()[0]+", "+pod_poly.getTransformedVertices()[1]);
-		     //System.out.println(pod_poly.getTransformedVertices()[2]+", "+pod_poly.getTransformedVertices()[3]);
-		     //System.out.println(pod_poly.getTransformedVertices()[4]+", "+pod_poly.getTransformedVertices()[5]);
-		     //System.out.println(pod_poly.getTransformedVertices()[6]+", "+pod_poly.getTransformedVertices()[7]);
 		  }
 		  
 		   

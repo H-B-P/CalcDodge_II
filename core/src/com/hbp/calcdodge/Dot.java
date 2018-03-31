@@ -9,13 +9,11 @@ public class Dot {
 	   float t;
 	   float t0;
 	   
-	   float a;
-	   float b;
 	   float c;
 	   
-	   Dot(float xposn, float start_time, boolean up){
+	   Dot(float xposn, float start_time){
 		   rect=new Rectangle(30,30,30,30);
-		   a=xposn;
+		   c=xposn;
 		   t0=start_time;
 	   }
 	   
@@ -25,12 +23,12 @@ public class Dot {
 		   convert_to_realspace();
 	   }
 	   
-	   private void locate_to_function(){
+	   void locate_to_function(){
 		   y=t-t0;
-		   x=a;
+		   x=c;
 	   }
 	   
-	   private void convert_to_realspace(){
+	   void convert_to_realspace(){
 		   rect.setCenter(x*80+160,y*80+200);
 	   }
 }

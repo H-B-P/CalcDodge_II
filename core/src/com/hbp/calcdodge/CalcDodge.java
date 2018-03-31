@@ -16,7 +16,7 @@ public class CalcDodge extends Game {
 	
 	public void create() {
 		
-		this.setScreen(new GameScreen(this, false)); //Hand off to title screen.
+		this.setScreen(new GameScreen(this, false)); //Hand off to game screen.
 		
 	}
 
