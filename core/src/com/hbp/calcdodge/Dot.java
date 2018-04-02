@@ -12,7 +12,7 @@ public class Dot {
 	   float c;
 	   
 	   Dot(float xposn, float start_time){
-		   rect=new Rectangle(30,30,30,30);
+		   rect=new Rectangle(0,0,40,40);
 		   c=xposn;
 		   t0=start_time;
 	   }

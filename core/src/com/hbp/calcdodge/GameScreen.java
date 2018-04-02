@@ -42,6 +42,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.Preferences;
 import com.hbp.calcdodge.Kaboom;
 import com.hbp.calcdodge.Dot;
+import com.badlogic.gdx.math.MathUtils;
 
 import com.hbp.calcdodge.CalcDodge;
 
@@ -85,7 +86,6 @@ public class GameScreen extends MetaScreen {
 	private int GAMESPEED;
 	private int ORI_GAMESPEED;
 	private String LEVEL;
-	private String MODE;
 	
 	private float input_x;
 	private float input_y;
@@ -141,10 +141,6 @@ public class GameScreen extends MetaScreen {
 	
 	private Rectangle cotestrec;
 	
-	private Preferences prefs;
-	
-	private int prefs_score;
-	
 	public GameScreen(final CalcDodge gam, boolean play_the_sound) {
 		
 		super(gam, play_the_sound);
@@ -152,22 +148,14 @@ public class GameScreen extends MetaScreen {
 		GAMESPEED=200;
 		   ORI_GAMESPEED=200;
 		   LEVEL="xdotydot";
-		   MODE="alt";
 		   ANDROID=false;
 		 this.game = gam;
 	     
 		 shields=2;
 		 hits=0;
 		 
-		 if (MODE.equals("wall")){
-			 secondlimit=100;
-		 }
-		 else if (MODE.equals("gen") || MODE.equals("alt")){
-			 secondlimit=240;
-		 }
-		 else{
-			 secondlimit=-1;
-		 }
+		 secondlimit=120;
+		 
 		 explosionseconds=0;
 		 dots=new Array<Dot>();
 		 explosions = new Array<Kaboom>();
@@ -179,8 +167,6 @@ public class GameScreen extends MetaScreen {
 		 explosion_t = new Texture(Gdx.files.internal("explosion.png"));
 		 
 		 ypon="";
-		 
-		 prefs_score=0;
 		 
 		 pod_x=0;
 		 pod_y=0;
@@ -348,7 +334,7 @@ public class GameScreen extends MetaScreen {
 		   }
 		   
 		   
-		   batch.draw(poncho_t, -800+160, -1200+240);
+		   batch.draw(poncho_t, -800+160, -1200+200);
 		   batch.draw(window_t, 0, 0);
 		   
 		   for(Dot dot: dots) {
@@ -425,26 +411,66 @@ public class GameScreen extends MetaScreen {
 			   }
 			   
 			   if (seconds==3){
-				   dots.add(new Dot_vert(0,1,5));
+				   dots.add(new Dot_vert(0,0.5f,5));
+			   }
+			   else{
+				   if(seconds%2==0 && seconds>=4){
+					   int a=0;
+					   int b=0;
+					   while (a==b){
+						   a=MathUtils.random(-1,1);
+						   b=MathUtils.random(-1,1);
+					   }
+					   if (MathUtils.random(0,1)>0){
+						   dots.add(new Dot_vert(a,0.8f, seconds+2));
+					   }
+					   else{
+						   dots.add(new Dot_horz(a,0.8f, seconds+2));   
+					   }
+					   if (MathUtils.random(0,1)>0){
+						   dots.add(new Dot_vert(b,-0.8f, seconds+2));
+					   }
+					   else{
+						   dots.add(new Dot_horz(b,-0.8f, seconds+2));
+					   }
+				   }
 			   }
 			   
-			   if (seconds==5){
-				   dots.add(new Dot_vert(1,1,6));
-			   }
-			   
-			   if (seconds==5){
-				   dots.add(new Dot_vert(-1,-1,6));
-			   }
+//			   if (seconds==5){
+//				   dots.add(new Dot_vert(1,0.5f,6));
+//			   }
+//			   
+//			   if (seconds==5){
+//				   dots.add(new Dot_vert(-1,-0.5f,6));
+//			   }
+//			   
+//			   if (seconds==7){
+//				   dots.add(new Dot_horz(1,0.5f,8));
+//			   }
+//			   
+//			   if (seconds==7){
+//				   dots.add(new Dot_horz(-1,-0.5f,8));
+//			   }
+//			   
+//			   if (seconds==9){
+//				   dots.add(new Dot_vert(0,0.5f,10));
+//			   }
+//			   
+//			   if (seconds==9){
+//				   dots.add(new Dot_horz(0,0.5f,10));
+//			   }
+//			   if (seconds==12){
+//				   dots.add(new Dot_vert(0.5f,0.5f,13));
+//			   }
+//			   
+//			   if (seconds==12){
+//				   dots.add(new Dot_horz(-0.5f,0.5f,13));
+//			   }
 			   
 			   
 		   }
 		   if (Gdx.input.isKeyPressed(Keys.ESCAPE) || seconds==secondlimit || explosionseconds>2){
-			   
-			   while (GAMESPEED>20){
-				   GAMESPEED-=10;
-				   System.out.println("GAMESPEED IS "+GAMESPEED);
-			   }
-			   game.setScreen(new TitleScreen(game, true));
+			   game.setScreen(new GameScreen(game, true));
 			   
 
 			   
@@ -588,7 +614,7 @@ public class GameScreen extends MetaScreen {
 			   }
 			   
 		   
-		   pod_main.pod_r.setCenter(pod_x*UNIT_LENGTH_IN_PIXELS+160, pod_y*UNIT_LENGTH_IN_PIXELS+240);
+		   pod_main.pod_r.setCenter(pod_x*UNIT_LENGTH_IN_PIXELS+160, pod_y*UNIT_LENGTH_IN_PIXELS+200);
 		   
 			   pod_horz.pod_r.y=pod_main.pod_r.y;
 			   pod_vert.pod_r.x=pod_main.pod_r.x;
@@ -660,6 +686,9 @@ public class GameScreen extends MetaScreen {
 		    	 }
 		    	 else if ((pod_main.pod_r.overlaps(cotestrec)|| pod_horz.pod_r.overlaps(cotestrec) || pod_vert.pod_r.overlaps(cotestrec) ||pod_horzvert.pod_r.overlaps(cotestrec))){
 			    	 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
+			    	 //for (Pod pod: pods){
+			    	//	 spawnExplosion(pod.pod_r.x+pod.pod_r.width/2,pod.pod_r.y+pod.pod_r.height/2);
+			    	 //}
 			    	 iter.remove();
 			    	 HAVE_WE_EXPLODED=true;
 		    	 }
