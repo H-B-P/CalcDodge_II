@@ -12,6 +12,7 @@ public class Level2 extends GameScreen{
 			LEVEL="xdotdotydotdot";
 			shields=2;
 			 secondlimit=150;
+			 System.out.println("level two!");
 		}
 	   
 	   @Override
@@ -46,7 +47,7 @@ public class Level2 extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level2(game, true));
+			game.setScreen(new Level3(game, true));
 		}
 		
 	   @Override

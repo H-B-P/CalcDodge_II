@@ -431,7 +431,7 @@ public class GameScreen extends MetaScreen {
 			   
 			   
 		   }
-		   if (Gdx.input.isKeyPressed(Keys.ESCAPE) || seconds>=secondlimit || explosionseconds>2){
+		   if (Gdx.input.isKeyPressed(Keys.ESCAPE) || explosionseconds>2){
 			   level_specific_failure();
 
 			   
@@ -439,7 +439,7 @@ public class GameScreen extends MetaScreen {
 		   }
 		   
 		   else{
-			   if (seconds>=secondlimit){
+			   if (seconds>=secondlimit && !HAVE_WE_EXPLODED){
 				   level_specific_success();
 				   dispose();
 			   }
@@ -465,54 +465,27 @@ public class GameScreen extends MetaScreen {
 		   }
 		   
 		   
-			   if (LEVEL=="xdotydot"){
-				   pod_xdot=input_x;
-				   pod_ydot=input_y;
-			   }
-			   if (LEVEL=="xy"){
-				   pod_x=input_x;
-				   pod_y=input_y;
-			   }
-			   if (LEVEL=="xdotdotydotdot"){
+			   if (LEVEL.startsWith("xdotdot")){
 				   pod_xdotdot=input_x;
+			   }
+			   else if (LEVEL.startsWith("xdot")){
+				   pod_xdot=input_x;
+			   }
+			   else if (LEVEL.startsWith("x")){
+				   pod_x=input_x;
+			   }
+			   
+			   if (LEVEL.endsWith("ydotdot")){
 				   pod_ydotdot=input_y;
 			   }
-			   if (LEVEL=="xdoty"){
-				   pod_xdot=input_x;
-				   pod_y=input_y;
-			   }
-			   if (LEVEL=="xdotdoty"){
-				   pod_xdotdot=input_x;
-				   pod_y=input_y;
-			   }
-			   if (LEVEL=="xdotdotydot"){
-				   pod_xdotdot=input_x;
+			   else if (LEVEL.endsWith("ydot")){
 				   pod_ydot=input_y;
 			   }
-			   if (LEVEL=="xdotdotdoty"){
-				   pod_xdotdotdot=input_x;
+			   else if (LEVEL.endsWith("y")){
 				   pod_y=input_y;
 			   }
-			   if (LEVEL=="xdotdotdotydotdotdot"){
-				   pod_xdotdotdot=input_x;
-				   pod_ydotdotdot=input_y;
-			   }
-			   if (LEVEL=="xdotydash"){
-				   pod_xdot=input_x;
-				   pod_ydash=input_y;
-			   }
-			   if (LEVEL=="xdotydashdash"){
-				   pod_xdot=input_x;
-				   pod_ydashdash=input_y;
-			   }
-			   if (LEVEL=="xdotydashdot"){
-				   pod_xdot=input_x;
-				   pod_ydashdot=input_y;
-			   }
-			   if (LEVEL=="xdotydotdash"){
-				   pod_xdot=input_x;
-				   pod_ydotdash=input_y;
-			   }
+			   
+			   
 		   
 		   if (pod_ydash>=1){
 			   pod_ydash=1;
@@ -521,18 +494,18 @@ public class GameScreen extends MetaScreen {
 			   pod_ydash=-1;
 		   }
 		   
-//		   if (pod_xdot>=1){
-//			   pod_xdot=1;
-//		   }
-//		   if (pod_xdot<=-1){
-//			   pod_xdot=-1;
-//		   }
-//		   if (pod_ydot>=1){
-//			   pod_ydot=1;
-//		   }
-//		   if (pod_ydot<=-1){
-//			   pod_ydot=-1;
-//		   }
+		   if (pod_xdot>=4){
+			   pod_xdot=4;
+		   }
+		   if (pod_xdot<=-4){
+			   pod_xdot=-4;
+		   }
+		   if (pod_ydot>=4){
+			   pod_ydot=4;
+		   }
+		   if (pod_ydot<=-4){
+			   pod_ydot=-4;
+		   }
 		   
 		   
 		   pod_xdotdot+=pod_xdotdotdot*effective_delta;

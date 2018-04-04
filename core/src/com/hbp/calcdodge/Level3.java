@@ -13,44 +13,40 @@ public class Level3 extends GameScreen{
 	   void level_specific_setup(){
 			LEVEL="xdotydotdot";
 			shields=2;
-			 secondlimit=180;
+			 secondlimit=160;
 		}
 	   
 	   @Override
 	   
 	   void level_specific_attack_pattern(){
-			if (seconds==1){
-				   dots.add(new Dot_vert(0,0.5f,8));
-			   }
-			   else{
-				   if((seconds%6==0 && seconds>6 && seconds<60)||(seconds>=60 && seconds<110 && seconds%4==0)){
-					   int a=0;
-					   int b=0;
-					   while (a==b){
-						   a=MathUtils.random(-1,1);
-						   b=MathUtils.random(-1,1);
-					   }
-					   if (MathUtils.random(0,1)>0){
-						   dots.add(new Dot_vert(a,0.8f, seconds+4));
-					   }
-					   else{
-						   dots.add(new Dot_horz(a,0.8f, seconds+4));   
-					   }
-					   if (MathUtils.random(0,1)>0){
-						   dots.add(new Dot_vert(b,-0.8f, seconds+4));
-					   }
-					   else{
-						   dots.add(new Dot_horz(b,-0.8f, seconds+4));
-					   }
-					   System.out.println("make a thing!");
+			
+				   if (seconds<80 && seconds%10==2){
+					   int z=plusorminus();
+					   dots.add(new Dot_vert(Math.round(pod_x),z*0.4f,seconds+8));
+					   dots.add(new Dot_vert(Math.round(pod_x),z*0.8f,seconds+8));
 				   }
-			   }
+				   if (seconds<80 && seconds%10==7){
+					   int z=plusorminus();
+					   dots.add(new Dot_horz(Math.round(pod_y),z*0.3f,seconds+8));
+					   dots.add(new Dot_horz(Math.round(pod_y),z*0.6f,seconds+8));
+				   }
+				   
+				   if (seconds>=90 && seconds%10==0 && seconds<150){
+					   int z_one=plusorminus();
+					   dots.add(new Dot_horz(-1,z_one*0.5f,seconds+10));
+					   dots.add(new Dot_horz(0,z_one*0.5f,seconds+10));
+					   dots.add(new Dot_horz(1,z_one*0.5f,seconds+10));
+					   int z_two=plusorminus();
+					   dots.add(new Dot_vert(-1,z_two*0.5f,seconds+10));
+					   dots.add(new Dot_vert(0,z_two*0.5f,seconds+10));
+					   dots.add(new Dot_vert(1,z_two*0.5f,seconds+10));
+				   }
 		}
 		
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level2(game, true));
+			game.setScreen(new Level1(game, true));
 		}
 		
 	   @Override
@@ -58,4 +54,5 @@ public class Level3 extends GameScreen{
 		void level_specific_failure(){
 			game.setScreen(new Level3(game, true));
 		}
+	   
 }
