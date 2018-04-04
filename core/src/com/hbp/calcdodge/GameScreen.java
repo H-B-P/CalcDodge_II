@@ -51,79 +51,78 @@ public class GameScreen extends MetaScreen {
 	final CalcDodge game;
 	
 	OrthographicCamera camera;
-	private Texture pod_t;
+	 Texture pod_t;
 	
 	
-	private Pod pod_main;
+	 Pod pod_main;
 	
-	private Pod pod_vert;
-	private Pod pod_horz;
-	private Pod pod_horzvert;
+	 Pod pod_vert;
+	 Pod pod_horz;
+	 Pod pod_horzvert;
 	
-	private Texture statusbar_t;
+	 Texture statusbar_t;
 	
-	private Texture poncho_t;
-	private Texture window_t;
+	 Texture poncho_t;
+	 Texture window_t;
 	
-	private Texture grid_t;
+	 Texture grid_t;
 	
-	private Array<Pod> pods;
-	private float pod_x;
-	private float pod_y;
-	private float pod_ydot;
-	private float pod_xdot;
-	private float pod_xdotdot;
-	private float pod_ydotdot;
-	private float pod_xdotdotdot;
-	private float pod_ydotdotdot;
+	Array<Pod> pods;
+	 float pod_x;
+	 float pod_y;
+	 float pod_ydot;
+	 float pod_xdot;
+	 float pod_xdotdot;
+	 float pod_ydotdot;
+	 float pod_xdotdotdot;
+	 float pod_ydotdotdot;
 	
-	private float pod_ydash;
-	private float pod_ydashdash;
-	private float pod_ydotdash;
-	private float pod_ydashdot;
+	 float pod_ydash;
+	 float pod_ydashdash;
+	 float pod_ydotdash;
+	 float pod_ydashdot;
 	
-	private int GAMESPEED;
-	private String LEVEL;
+	 int GAMESPEED;
 	
-	private float input_x;
-	private float input_y;
+	String LEVEL;
+	int shields;
+	int secondlimit;
 	
-	private float effective_delta;
+	 float input_x;
+	 float input_y;
 	
-	private Array<Dot> dots;
-	private Array<Kaboom> explosions;
+	 float effective_delta;
 	
-	private Texture dot_t;
+	 Array<Dot> dots;
+	 Array<Kaboom> explosions;
 	
-	private Texture explosion_t;
+	 Texture dot_t;
 	
-	private SpriteBatch batch;
+	 Texture explosion_t;
 	
-	private float total_time;
-	private int seconds;
-	private int explosionseconds;
+	 SpriteBatch batch;
 	
-	private int UNIT_LENGTH_IN_PIXELS;
+	 float total_time;
+	 int seconds;
+	 int explosionseconds;
 	
-	private float SHIP_BOUNDARY_DIST;
+	 int UNIT_LENGTH_IN_PIXELS;
 	
-	private boolean HAVE_WE_EXPLODED;
+	 float SHIP_BOUNDARY_DIST;
 	
-	private Rectangle realityBox;
+	 boolean HAVE_WE_EXPLODED;
 	
-	private String ypon;
-	private BitmapFont font;
+	 Rectangle realityBox;
 	
-	private int shields;
+	 String ypon;
+	 BitmapFont font;
 	
-	private Texture shield_one_t;
-	private Texture shield_two_t;
-	private Texture shield_three_t;
-	private Texture shield_four_t;
+	 Texture shield_one_t;
+	 Texture shield_two_t;
+	 Texture shield_three_t;
+	 Texture shield_four_t;
 	
-	private int secondlimit;
-	
-	private Rectangle cotestrec;
+	 Rectangle cotestrec;
 	
 	Sound hitshield;
 	
@@ -281,16 +280,14 @@ public class GameScreen extends MetaScreen {
 	
 	   //---FUNCTIONS---
 	   
-	   private int plusorminus(){
+	    int plusorminus(){
 		   int coin=MathUtils.random(0,1);
 		   return coin*2-1;
 	   }
 	   
-
-	   
 	   //----
 	   
-	   private void spawnExplosion(float X, float Y){
+	    void spawnExplosion(float X, float Y){
 		   Kaboom boom = new Kaboom();
 		   boom.rect= new Rectangle();
 		   boom.birthtime=total_time;
@@ -304,7 +301,7 @@ public class GameScreen extends MetaScreen {
 	   
 	   
 	   ///--  --
-	   private String double_formatted(double doub){
+	    String double_formatted(double doub){
 		   double a=Math.round(doub*10.0)/10.0;
 		   Float b=(Float)(float)a;
 		   return b.toString();
@@ -517,19 +514,6 @@ public class GameScreen extends MetaScreen {
 				   pod_ydotdash=input_y;
 			   }
 		   
-		   if (pod_xdotdot>=1){
-			   pod_xdotdot=1;
-		   }
-		   if (pod_xdotdot<=-1){
-			   pod_xdotdot=-1;
-		   }
-		   if (pod_ydotdot>=1){
-			   pod_ydotdot=1;
-		   }
-		   if (pod_ydotdot<=-1){
-			   pod_ydotdot=-1;
-		   }
-		   
 		   if (pod_ydash>=1){
 			   pod_ydash=1;
 		   }
@@ -537,18 +521,18 @@ public class GameScreen extends MetaScreen {
 			   pod_ydash=-1;
 		   }
 		   
-		   if (pod_xdot>=1){
-			   pod_xdot=1;
-		   }
-		   if (pod_xdot<=-1){
-			   pod_xdot=-1;
-		   }
-		   if (pod_ydot>=1){
-			   pod_ydot=1;
-		   }
-		   if (pod_ydot<=-1){
-			   pod_ydot=-1;
-		   }
+//		   if (pod_xdot>=1){
+//			   pod_xdot=1;
+//		   }
+//		   if (pod_xdot<=-1){
+//			   pod_xdot=-1;
+//		   }
+//		   if (pod_ydot>=1){
+//			   pod_ydot=1;
+//		   }
+//		   if (pod_ydot<=-1){
+//			   pod_ydot=-1;
+//		   }
 		   
 		   
 		   pod_xdotdot+=pod_xdotdotdot*effective_delta;
