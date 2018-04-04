@@ -11,9 +11,9 @@ public class Dot {
 	   
 	   float c;
 	   
-	   Dot(float xposn, float start_time){
+	   Dot(float posn, float start_time){
 		   rect=new Rectangle(0,0,40,40);
-		   c=xposn;
+		   c=posn;
 		   t0=start_time;
 	   }
 	   
@@ -24,7 +24,7 @@ public class Dot {
 	   }
 	   
 	   void locate_to_function(){
-		   y=t-t0;
+		   y=t;
 		   x=c;
 	   }
 	   

@@ -84,7 +84,6 @@ public class GameScreen extends MetaScreen {
 	
 	private FitViewport viewport;
 	private int GAMESPEED;
-	private int ORI_GAMESPEED;
 	private String LEVEL;
 	
 	private float input_x;
@@ -141,16 +140,25 @@ public class GameScreen extends MetaScreen {
 	
 	private Rectangle cotestrec;
 	
+	Sound hitshield;
+	
 	public GameScreen(final CalcDodge gam, boolean play_the_sound) {
 		
 		super(gam, play_the_sound);
 		
 		GAMESPEED=200;
-		   ORI_GAMESPEED=200;
 		   LEVEL="xdotydot";
 		   ANDROID=false;
 		 this.game = gam;
 	     
+				bgm=Gdx.audio.newMusic(Gdx.files.internal("MCS_Dampen.mp3"));
+				bgm.setLooping(true);
+				//bgm.setVolume(option_music_volume);
+				bgm.setVolume(0.2f);
+				bgm.play();
+		 
+			    hitshield=Gdx.audio.newSound(Gdx.files.internal("sfx_scronched/bang.mp3"));
+				
 		 shields=2;
 		 hits=0;
 		 
@@ -309,6 +317,8 @@ public class GameScreen extends MetaScreen {
 		   
 		   batch.begin();
 		   
+		   batch.draw(grid_t, 0, -40);
+		   
 		   if (!HAVE_WE_EXPLODED){
 			   
 			   for (Pod pod: pods){
@@ -405,16 +415,17 @@ public class GameScreen extends MetaScreen {
 		   
 		   if((seconds+1)<(total_time)){
 			   System.out.println(seconds);
+			   System.out.println(total_time);
 			   seconds+=1;
 			   if (HAVE_WE_EXPLODED){
 				   explosionseconds+=1;
 			   }
 			   
-			   if (seconds==3){
-				   dots.add(new Dot_vert(0,0.5f,5));
+			   if (seconds==1){
+				   dots.add(new Dot_vert(0,0.5f,8));
 			   }
 			   else{
-				   if(seconds%2==0 && seconds>=4){
+				   if((seconds%6==0 && seconds>6 && seconds<60)||(seconds>=60 && seconds<110 && seconds%4==0)){
 					   int a=0;
 					   int b=0;
 					   while (a==b){
@@ -422,17 +433,18 @@ public class GameScreen extends MetaScreen {
 						   b=MathUtils.random(-1,1);
 					   }
 					   if (MathUtils.random(0,1)>0){
-						   dots.add(new Dot_vert(a,0.8f, seconds+2));
+						   dots.add(new Dot_vert(a,0.8f, seconds+4));
 					   }
 					   else{
-						   dots.add(new Dot_horz(a,0.8f, seconds+2));   
+						   dots.add(new Dot_horz(a,0.8f, seconds+4));   
 					   }
 					   if (MathUtils.random(0,1)>0){
-						   dots.add(new Dot_vert(b,-0.8f, seconds+2));
+						   dots.add(new Dot_vert(b,-0.8f, seconds+4));
 					   }
 					   else{
-						   dots.add(new Dot_horz(b,-0.8f, seconds+2));
+						   dots.add(new Dot_horz(b,-0.8f, seconds+4));
 					   }
+					   System.out.println("make a thing!");
 				   }
 			   }
 			   
@@ -469,7 +481,7 @@ public class GameScreen extends MetaScreen {
 			   
 			   
 		   }
-		   if (Gdx.input.isKeyPressed(Keys.ESCAPE) || seconds==secondlimit || explosionseconds>2){
+		   if (Gdx.input.isKeyPressed(Keys.ESCAPE) || seconds>=secondlimit || explosionseconds>2){
 			   game.setScreen(new GameScreen(game, true));
 			   
 
@@ -660,6 +672,7 @@ public class GameScreen extends MetaScreen {
 		    		 if ((pod_main.shield_four_r.overlaps(cotestrec)|| pod_horz.shield_four_r.overlaps(cotestrec) || pod_vert.shield_four_r.overlaps(cotestrec) ||pod_horzvert.shield_four_r.overlaps(cotestrec))){
 		    			 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
 				    	 shields-=1;
+				    	 hitshield.play(0.1f);
 				    	 iter.remove();
 		    		 }
 		    	 }
@@ -667,6 +680,7 @@ public class GameScreen extends MetaScreen {
 		    		 if ((pod_main.shield_three_r.overlaps(cotestrec)|| pod_horz.shield_three_r.overlaps(cotestrec) || pod_vert.shield_three_r.overlaps(cotestrec) ||pod_horzvert.shield_three_r.overlaps(cotestrec))){
 		    			 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
 				    	 shields-=1;
+				    	 hitshield.play(0.1f);
 				    	 iter.remove();
 		    		 }
 		    	 }
@@ -674,6 +688,7 @@ public class GameScreen extends MetaScreen {
 		    		 if ((pod_main.shield_two_r.overlaps(cotestrec)|| pod_horz.shield_two_r.overlaps(cotestrec) || pod_vert.shield_two_r.overlaps(cotestrec) ||pod_horzvert.shield_two_r.overlaps(cotestrec))){
 		    			 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
 				    	 shields-=1;
+				    	 hitshield.play(0.1f);
 				    	 iter.remove();
 		    		 }
 		    	 }
@@ -681,6 +696,7 @@ public class GameScreen extends MetaScreen {
 		    		 if ((pod_main.shield_one_r.overlaps(cotestrec)|| pod_horz.shield_one_r.overlaps(cotestrec) || pod_vert.shield_one_r.overlaps(cotestrec) ||pod_horzvert.shield_one_r.overlaps(cotestrec))){
 		    			 spawnExplosion(dot.rect.x+dot.rect.width/2,dot.rect.y+dot.rect.height/2);
 				    	 shields-=1;
+				    	 hitshield.play(0.1f);
 				    	 iter.remove();
 		    		 }
 		    	 }
@@ -689,6 +705,7 @@ public class GameScreen extends MetaScreen {
 			    	 //for (Pod pod: pods){
 			    	//	 spawnExplosion(pod.pod_r.x+pod.pod_r.width/2,pod.pod_r.y+pod.pod_r.height/2);
 			    	 //}
+			    	 hitshield.play(0.1f);
 			    	 iter.remove();
 			    	 HAVE_WE_EXPLODED=true;
 		    	 }
@@ -704,6 +721,8 @@ public class GameScreen extends MetaScreen {
 	   //(Still need to do this properly, but leaving most of the images etc
 	   //running doesn't appear to be causing any problems yet.)
 	   public void dispose() {
+		   bgm.stop();
+		   bgm.dispose();
 	      // dispose of all the native resources
 		   pod_t.dispose();
 

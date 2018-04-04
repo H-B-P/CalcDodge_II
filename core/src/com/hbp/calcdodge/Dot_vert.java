@@ -13,7 +13,7 @@ public class Dot_vert extends Dot{
 	   @Override
 	   
 	   void locate_to_function(){
-		   y=m*(t-t0);
+		   y=m*t;
 		   x=c;
 	   }
 }
