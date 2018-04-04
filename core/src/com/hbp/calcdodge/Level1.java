@@ -1,5 +1,7 @@
 package com.hbp.calcdodge;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Level1 extends GameScreen{
@@ -14,6 +16,8 @@ public class Level1 extends GameScreen{
 			LEVEL="xdotydot";
 			shields=2;
 			 secondlimit=120;
+			 
+			pod_t= new Texture(Gdx.files.internal("cartesian_dodger_L1.png"));
 		}
 	   
 	   @Override

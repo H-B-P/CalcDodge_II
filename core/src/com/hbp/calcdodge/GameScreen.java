@@ -132,7 +132,7 @@ public class GameScreen extends MetaScreen {
 		
 		GAMESPEED=200;
 		   
-		level_specific_setup();
+		
 		
 		 this.game = gam;
 	     
@@ -209,11 +209,8 @@ public class GameScreen extends MetaScreen {
 		realityBox.height=240;
 		realityBox.setCenter(160,200);
 		
-		System.out.println("RB STATS");
-		System.out.println(realityBox.x);
-		System.out.println(realityBox.width);
-		System.out.println(realityBox.height);
-		System.out.println(realityBox.x);
+
+		level_specific_setup();
 		
 		
 		camera = new OrthographicCamera();

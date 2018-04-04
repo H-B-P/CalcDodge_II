@@ -13,6 +13,6 @@ public class Dot_vert extends Dot{
 	   
 	   void locate_to_function(){
 		   y=m*t;
-		   x=c;
+		   x=k;
 	   }
 }

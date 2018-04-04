@@ -11,7 +11,7 @@ public class Dot_horz extends Dot{
 	   @Override
 	   
 	   void locate_to_function(){
-		   y=c;
+		   y=k;
 		   x=m*t;
 	   }
 }

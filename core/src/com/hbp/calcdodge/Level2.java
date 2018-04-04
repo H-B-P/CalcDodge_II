@@ -1,5 +1,8 @@
 package com.hbp.calcdodge;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+
 public class Level2 extends GameScreen{
 	   
 	   Level2(final CalcDodge gam, boolean play_the_sound){
@@ -12,7 +15,8 @@ public class Level2 extends GameScreen{
 			LEVEL="xdotdotydotdot";
 			shields=2;
 			 secondlimit=150;
-			 System.out.println("level two!");
+				pod_t= new Texture(Gdx.files.internal("cartesian_dodger_L2.png"));
+
 		}
 	   
 	   @Override

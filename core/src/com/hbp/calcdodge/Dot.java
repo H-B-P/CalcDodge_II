@@ -9,11 +9,11 @@ public class Dot {
 	   float t;
 	   float t0;
 	   
-	   float c;
+	   float k;
 	   
 	   Dot(float posn, float start_time){
 		   rect=new Rectangle(0,0,40,40);
-		   c=posn;
+		   k=posn;
 		   t0=start_time;
 	   }
 	   
@@ -25,7 +25,7 @@ public class Dot {
 	   
 	   void locate_to_function(){
 		   y=t;
-		   x=c;
+		   x=k;
 	   }
 	   
 	   void convert_to_realspace(){
