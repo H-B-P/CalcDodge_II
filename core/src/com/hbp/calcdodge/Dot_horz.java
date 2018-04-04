@@ -1,7 +1,5 @@
 package com.hbp.calcdodge;
 
-import com.badlogic.gdx.math.Rectangle;
-
 public class Dot_horz extends Dot{
 	   float m;
 	   

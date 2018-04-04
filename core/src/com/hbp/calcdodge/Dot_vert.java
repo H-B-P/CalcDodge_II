@@ -1,6 +1,5 @@
 package com.hbp.calcdodge;
 
-import com.badlogic.gdx.math.Rectangle;
 
 public class Dot_vert extends Dot{
 	   float m;

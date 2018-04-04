@@ -82,7 +82,6 @@ public class GameScreen extends MetaScreen {
 	private float pod_ydotdash;
 	private float pod_ydashdot;
 	
-	private FitViewport viewport;
 	private int GAMESPEED;
 	private String LEVEL;
 	
@@ -98,38 +97,24 @@ public class GameScreen extends MetaScreen {
 	
 	private Texture explosion_t;
 	
-	private int score;
-	
 	private SpriteBatch batch;
 	
 	private float total_time;
 	private int seconds;
 	private int explosionseconds;
 	
-	private float[] pp_input;
-	
 	private int UNIT_LENGTH_IN_PIXELS;
-	
-	private int SHIP_DISPLACEMENT_IN_PIXELS;
 	
 	private float SHIP_BOUNDARY_DIST;
 	
 	private boolean HAVE_WE_EXPLODED;
-	
-	private boolean ANDROID;
 	
 	private Rectangle realityBox;
 	
 	private String ypon;
 	private BitmapFont font;
 	
-	private int hits;
-	
 	private int shields;
-	private Rectangle shield_one_r;
-	private Rectangle shield_two_r;
-	private Rectangle shield_three_r;
-	private Rectangle shield_four_r;
 	
 	private Texture shield_one_t;
 	private Texture shield_two_t;
@@ -147,8 +132,9 @@ public class GameScreen extends MetaScreen {
 		super(gam, play_the_sound);
 		
 		GAMESPEED=200;
-		   LEVEL="xdotydot";
-		   ANDROID=false;
+		   
+		level_specific_setup();
+		
 		 this.game = gam;
 	     
 				bgm=Gdx.audio.newMusic(Gdx.files.internal("MCS_Dampen.mp3"));
@@ -159,10 +145,7 @@ public class GameScreen extends MetaScreen {
 		 
 			    hitshield=Gdx.audio.newSound(Gdx.files.internal("sfx_scronched/bang.mp3"));
 				
-		 shields=2;
-		 hits=0;
 		 
-		 secondlimit=120;
 		 
 		 explosionseconds=0;
 		 dots=new Array<Dot>();
@@ -188,9 +171,7 @@ public class GameScreen extends MetaScreen {
 		 pod_ydash=0;
 		 pod_ydashdash=0;
 		 pod_ydashdot=0;
-		 pod_ydotdash=0;
 		 
-		 score=0;
 		 
 		 statusbar_t=new Texture(Gdx.files.internal("statusbar.png"));
 		poncho_t= new Texture(Gdx.files.internal("blackbar_poncho.png"));
@@ -238,7 +219,6 @@ public class GameScreen extends MetaScreen {
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 320, 480);
-		viewport = new FitViewport(320, 480, camera);
 	    batch = new SpriteBatch();
 	    
 	    total_time=0;
@@ -254,26 +234,56 @@ public class GameScreen extends MetaScreen {
 	    font.setColor(Color.BLACK);
 	   }
 	   
+	//---level_specific_whatever---
+	
+	void level_specific_setup(){
+		LEVEL="xdotydot";
+		shields=2;
+		 secondlimit=120;
+	}
+	
+	void level_specific_attack_pattern(){
+		if (seconds==1){
+			   dots.add(new Dot_vert(0,0.5f,8));
+		   }
+		   else{
+			   if((seconds%6==0 && seconds>6 && seconds<60)||(seconds>=60 && seconds<110 && seconds%4==0)){
+				   int a=0;
+				   int b=0;
+				   while (a==b){
+					   a=MathUtils.random(-1,1);
+					   b=MathUtils.random(-1,1);
+				   }
+				   if (MathUtils.random(0,1)>0){
+					   dots.add(new Dot_vert(a,0.8f, seconds+4));
+				   }
+				   else{
+					   dots.add(new Dot_horz(a,0.8f, seconds+4));   
+				   }
+				   if (MathUtils.random(0,1)>0){
+					   dots.add(new Dot_vert(b,-0.8f, seconds+4));
+				   }
+				   else{
+					   dots.add(new Dot_horz(b,-0.8f, seconds+4));
+				   }
+				   System.out.println("make a thing!");
+			   }
+		   }
+	}
+	
+	void level_specific_success(){
+		game.setScreen(new GameScreen(game, true));
+	}
+	
+	void level_specific_failure(){
+		game.setScreen(new GameScreen(game, true));
+	}
+	
 	   //---FUNCTIONS---
 	   
 	   private int plusorminus(){
 		   int coin=MathUtils.random(0,1);
 		   return coin*2-1;
-	   }
-	   
-	   private int tri(){
-		   int coin=MathUtils.random(0,2);
-		   return coin-1;
-	   }
-	   
-	   private float pent(){
-		   int coin=MathUtils.random(0,4);
-		   return ((float)coin-2)/2;
-	   }
-	   
-	   private float sept(){
-		   int coin=MathUtils.random(0,6);
-		   return ((float)coin-3)/2;
 	   }
 	   
 
@@ -407,9 +417,7 @@ public class GameScreen extends MetaScreen {
 				   }
 		   }
 		   
-		   font.draw(batch, "Score: "+score, 150, 425);
 		   font.draw(batch, "Time: "+(secondlimit-seconds), 150, 445);
-		   font.draw(batch, "Hits: "+hits, 150, 465);
 		   
 		   batch.end();
 		   
@@ -421,72 +429,23 @@ public class GameScreen extends MetaScreen {
 				   explosionseconds+=1;
 			   }
 			   
-			   if (seconds==1){
-				   dots.add(new Dot_vert(0,0.5f,8));
-			   }
-			   else{
-				   if((seconds%6==0 && seconds>6 && seconds<60)||(seconds>=60 && seconds<110 && seconds%4==0)){
-					   int a=0;
-					   int b=0;
-					   while (a==b){
-						   a=MathUtils.random(-1,1);
-						   b=MathUtils.random(-1,1);
-					   }
-					   if (MathUtils.random(0,1)>0){
-						   dots.add(new Dot_vert(a,0.8f, seconds+4));
-					   }
-					   else{
-						   dots.add(new Dot_horz(a,0.8f, seconds+4));   
-					   }
-					   if (MathUtils.random(0,1)>0){
-						   dots.add(new Dot_vert(b,-0.8f, seconds+4));
-					   }
-					   else{
-						   dots.add(new Dot_horz(b,-0.8f, seconds+4));
-					   }
-					   System.out.println("make a thing!");
-				   }
-			   }
 			   
-//			   if (seconds==5){
-//				   dots.add(new Dot_vert(1,0.5f,6));
-//			   }
-//			   
-//			   if (seconds==5){
-//				   dots.add(new Dot_vert(-1,-0.5f,6));
-//			   }
-//			   
-//			   if (seconds==7){
-//				   dots.add(new Dot_horz(1,0.5f,8));
-//			   }
-//			   
-//			   if (seconds==7){
-//				   dots.add(new Dot_horz(-1,-0.5f,8));
-//			   }
-//			   
-//			   if (seconds==9){
-//				   dots.add(new Dot_vert(0,0.5f,10));
-//			   }
-//			   
-//			   if (seconds==9){
-//				   dots.add(new Dot_horz(0,0.5f,10));
-//			   }
-//			   if (seconds==12){
-//				   dots.add(new Dot_vert(0.5f,0.5f,13));
-//			   }
-//			   
-//			   if (seconds==12){
-//				   dots.add(new Dot_horz(-0.5f,0.5f,13));
-//			   }
+			   level_specific_attack_pattern();
 			   
 			   
 		   }
 		   if (Gdx.input.isKeyPressed(Keys.ESCAPE) || seconds>=secondlimit || explosionseconds>2){
-			   game.setScreen(new GameScreen(game, true));
-			   
+			   level_specific_failure();
 
 			   
 			   dispose();
+		   }
+		   
+		   else{
+			   if (seconds>=secondlimit){
+				   level_specific_success();
+				   dispose();
+			   }
 		   }
 		   
 		   if (Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)){
