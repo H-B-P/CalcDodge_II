@@ -16,7 +16,7 @@ public class CalcDodge extends Game {
 	
 	public void create() {
 		
-		this.setScreen(new Level4(this, false)); //Hand off to game screen.
+		this.setScreen(new Level1(this, false)); //Hand off to game screen.
 		
 	}
 
