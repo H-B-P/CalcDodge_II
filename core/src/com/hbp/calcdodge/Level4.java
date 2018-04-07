@@ -43,7 +43,7 @@ public class Level4 extends GameScreen{
 				   }
 				   
 				   if (seconds>=65 && seconds%10==5 && seconds<130){
-					   dots.add(new Dot_vert_quad(Math.round(pod_x), plusorminus()*0.4f,0,0, seconds+5));
+					   dots.add(new Dot_vert_quad(Math.round(pod_x), plusorminus()*0.4f, seconds+5));
 				   }
 				   if (seconds>=65 && seconds%10==0 && seconds<130){
 					   dots.add(new Dot_horz_quad(MathUtils.random(-1,1), plusorminus()*0.2f,0,0, seconds+5));
@@ -86,7 +86,7 @@ public class Level4 extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level1(game, true));
+			game.setScreen(new Level5(game, true));
 		}
 		
 	   @Override
