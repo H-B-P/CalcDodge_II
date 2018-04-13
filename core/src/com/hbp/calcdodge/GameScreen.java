@@ -468,6 +468,9 @@ public class GameScreen extends MetaScreen {
 			   else if (LEVEL.startsWith("xdot")){
 				   pod_xdot=input_x;
 			   }
+			   else if (LEVEL.startsWith("2xdot")){
+				   pod_xdot=input_x/2f;
+			   }
 			   else if (LEVEL.startsWith("x")){
 				   pod_x=input_x;
 			   }
@@ -481,14 +484,19 @@ public class GameScreen extends MetaScreen {
 			   else if (LEVEL.endsWith("y")){
 				   pod_y=input_y;
 			   }
-			   
+			   else if (LEVEL.endsWith("ydash")){
+				   pod_ydash=input_y;
+			   }
+			   else if (LEVEL.endsWith("ydashdash")){
+				   pod_ydashdash=input_y;
+			   }
 			   
 		   
-		   if (pod_ydash>=1){
-			   pod_ydash=1;
+		   if (pod_ydash>=4){
+			   pod_ydash=4;
 		   }
-		   if (pod_ydash<=-1){
-			   pod_ydash=-1;
+		   if (pod_ydash<=-4){
+			   pod_ydash=-4;
 		   }
 		   
 		   if (pod_xdot>=4){

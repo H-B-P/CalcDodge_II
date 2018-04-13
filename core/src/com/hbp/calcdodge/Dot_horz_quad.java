@@ -5,11 +5,19 @@ public class Dot_horz_quad extends Dot{
 	   float b;
 	   float c;
 	   
-	   Dot_horz_quad(float xposn, float A, float B, float C, float start_time){
-		   super(xposn, start_time);
+	   Dot_horz_quad(float yposn, float A, float B, float C, float start_time){
+		   super(yposn, start_time);
 		   a=A;
 		   b=B;
 		   c=C;
+	   }
+	   
+	   Dot_horz_quad(float yposn, float A, float C, float start_time){
+		   this(yposn, A, 0, C, start_time);
+	   }
+	   
+	   Dot_horz_quad(float yposn, float A, float start_time){
+		   this(yposn, A, 0, 0, start_time);
 	   }
 	   
 	   @Override

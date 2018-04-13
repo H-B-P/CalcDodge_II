@@ -15,7 +15,7 @@ public class Level1 extends GameScreen{
 	   void level_specific_setup(){
 			LEVEL="xdotydot";
 			shields=2;
-			 secondlimit=100;
+			 secondlimit=80;
 			 
 			pod_t= new Texture(Gdx.files.internal("cartesian_dodger_L1.png"));
 		}
@@ -27,7 +27,7 @@ public class Level1 extends GameScreen{
 				   dots.add(new Dot_vert(0,0.5f,8));
 			   }
 			   else{
-				   if((seconds%6==0 && seconds>6 && seconds<48)||(seconds>=48 && seconds<90 && seconds%4==0)){
+				   if((seconds%6==0 && seconds>6 && seconds<36)||(seconds>=36 && seconds<72 && seconds%4==0)){
 					   int a=0;
 					   int b=0;
 					   while (a==b){
@@ -46,11 +46,10 @@ public class Level1 extends GameScreen{
 					   else{
 						   dots.add(new Dot_horz(b,-0.8f, seconds+4));
 					   }
-					   System.out.println("make a thing!");
 				   }
 			   }
 		}
-		
+	   
 	   @Override
 	   
 		void level_specific_success(){
