@@ -31,4 +31,22 @@ public class Dot {
 	   void convert_to_realspace(){
 		   rect.setCenter(x*80+160,y*80+200);
 	   }
+	   
+	   String return_t_line(){
+		   return "t = T - " + t0 + " = "+double_formatted(t);
+	   }
+	   
+	   String return_x_line(){
+		   return "";
+	   }
+	   String return_y_line(){
+		   return "";
+	   }
+	   
+	   public String double_formatted(double doub){
+		   double a=Math.round(doub*10.0)/10.0;
+		   Float b=(Float)(float)a;
+		   return b.toString();
+	   }
+	   
 }

@@ -25,4 +25,19 @@ public class Dot_vert_quad extends Dot{
 		   y=a*t*t+b*t+c;
 		   x=k;
 	   }
+	   
+	   @Override
+	   String return_y_line(){
+		   if (b!=0){
+			   return "y = " + a + "t^2 + "+ b + "t + " + c;
+		   }
+		   if (c==0){
+			   return "y = " + a + "t^2 = "+ double_formatted(y);
+		   }
+		   return "y = " + a + "t^2 + "+c;
+	   }
+	   @Override
+	   String return_x_line(){
+		   return "x = " + k;
+	   }
 }

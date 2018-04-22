@@ -14,4 +14,12 @@ public class Dot_horz extends Dot{
 		   y=k;
 		   x=m*t;
 	   }
+	   @Override
+	   String return_x_line(){
+		   return "x = " + m + "t = "+double_formatted(x);
+	   }
+	   @Override
+	   String return_y_line(){
+		   return "y = " + k;
+	   }
 }

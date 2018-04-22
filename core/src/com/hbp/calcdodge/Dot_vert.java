@@ -15,4 +15,12 @@ public class Dot_vert extends Dot{
 		   y=m*t;
 		   x=k;
 	   }
+	   @Override
+	   String return_x_line(){
+		   return "x = " + k;
+	   }
+	   @Override
+	   String return_y_line(){
+		   return "y = " + m + "t = "+double_formatted(y);
+	   }
 }

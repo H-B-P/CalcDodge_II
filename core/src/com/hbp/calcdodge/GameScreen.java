@@ -293,22 +293,18 @@ public class GameScreen extends MetaScreen {
 		   explosions.add(boom);
 	   }
 	   
-	   //----
 	   
-	   
-	   
-	   ///--  --
-	    String double_formatted(double doub){
-		   double a=Math.round(doub*10.0)/10.0;
-		   Float b=(Float)(float)a;
-		   return b.toString();
-	   }
+	    public String double_formatted(double doub){
+			   double a=Math.round(doub*10.0)/10.0;
+			   Float b=(Float)(float)a;
+			   return b.toString();
+		   }
 	   
 	   //---RENDER---
 	   @Override
 	   public void render(float delta) {
 		   
-		   
+		   meta_render();
 		   
 		   effective_delta=delta*((float)GAMESPEED)/100f;
 		   
@@ -364,55 +360,59 @@ public class GameScreen extends MetaScreen {
 		   //batch.draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation)
 		   
 		   batch.draw(statusbar_t, 0, 400);
+		   
+		   
 		   if (!HAVE_WE_EXPLODED){
-				   if (LEVEL.startsWith("xdotdotdot")){
-					   font.draw(batch, double_formatted(pod_xdotdotdot), 30, 470);
-					   font.draw(batch, double_formatted(pod_xdotdot), 30, 445);
-					   font.draw(batch, double_formatted(pod_xdot), 30, 420);
-					   if (LEVEL.equals("xdotdotdotydotdotdot")){
-						   font.draw(batch, double_formatted(pod_ydotdotdot), 90, 470);
-						   font.draw(batch, double_formatted(pod_ydotdot), 90, 445);
-						   font.draw(batch, double_formatted(pod_ydot), 90, 420);
-					   }
-					   else{
-						   font.draw(batch, double_formatted(pod_y), 90, 420);
-					   }
+				   font.draw(batch, "x = " + double_formatted(pod_x), 15, 422);
+				   font.draw(batch, "y = " + double_formatted(pod_y), 70, 422);
+				   if(LEVEL.startsWith("xdot")){
+					   font.draw(batch, "x = " + double_formatted(pod_xdot), 15, 447);
+					   font.draw(batch, ".", 17, 457);
 				   }
-				   else{
-					   font.draw(batch, double_formatted(pod_x), 30, 420);
-					   font.draw(batch, double_formatted(pod_y), 90, 420);
-					   if(LEVEL.startsWith("xdot")){
-						   font.draw(batch, double_formatted(pod_xdot), 30, 445);
+				   if(LEVEL.startsWith("xdotdot")){
+					   font.draw(batch, "x = " + double_formatted(pod_xdotdot), 15, 472);
+					   font.draw(batch, "..", 15, 482);
+				   }
+				   if(LEVEL.startsWith("2xdot")){
+					   font.draw(batch, "x = " + double_formatted(2*pod_xdot), 15, 447);
+					   font.draw(batch, "2", 7, 447);
+				   }
+				   if (LEVEL.split("y").length>1){
+					   ypon=(LEVEL.split("y"))[1];
+					   if(ypon.startsWith("dot")){
+						   font.draw(batch, "y = "+double_formatted(pod_ydot), 70, 447);
+						   font.draw(batch, ".", 72, 457);
 					   }
-					   if(LEVEL.startsWith("xdotdot")){
-						   font.draw(batch, double_formatted(pod_xdotdot), 30, 470);
+					   if(ypon.startsWith("dash")){
+						   font.draw(batch, "y = "+double_formatted(pod_ydash), 70, 447);
+						   font.draw(batch, "'", 77, 447);
 					   }
-					   if (LEVEL.split("y").length>1){
-						   ypon=(LEVEL.split("y"))[1];
-						   if(ypon.startsWith("dot")){
-							   font.draw(batch, double_formatted(pod_ydot), 90, 445);
-						   }
-						   if(ypon.startsWith("dash")){
-							   font.draw(batch, double_formatted(pod_ydash), 90, 445);
-						   }
-						   if(ypon.startsWith("dotdot")){
-							   font.draw(batch, double_formatted(pod_ydotdot), 90, 470);
-						   }
-						   if(ypon.startsWith("dashdot")){
-							   font.draw(batch, double_formatted(pod_ydashdot), 90, 470);
-						   }
-						   if(ypon.startsWith("dotdash")){
-							   font.draw(batch, double_formatted(pod_ydotdash), 90, 470);
-						   }
-						   if(ypon.startsWith("dashdash")){
-							   font.draw(batch, double_formatted(pod_ydashdash), 90, 470);
-						   }
+					   if(ypon.startsWith("dotdot")){
+						   font.draw(batch, "y = "+double_formatted(pod_ydotdot), 70, 472);
+						   font.draw(batch, "..", 70, 482);
+					   }
+					   if(ypon.startsWith("dashdash")){
+						   font.draw(batch, "y = "+double_formatted(pod_ydashdash), 70, 472);
+						   font.draw(batch, "''", 76, 474);
 					   }
 				   }
 		   }
 		   
-		   font.draw(batch, "Time: "+(secondlimit-seconds), 150, 445);
+		   //font.draw(batch, "Time: "+(secondlimit-seconds), 150, 445);
 		   
+				   font.draw(batch, "T = "+double_formatted(total_time), 124, 457);
+				   font.draw(batch, "goal: "+secondlimit, 124, 432);
+				   boolean onlyone=true;
+				   for (Dot dot: dots){
+					   if (dot.rect.contains(tp_x,tp_y) && onlyone){
+						   font.draw(batch, dot.return_t_line(), 190, 472);
+						   font.draw(batch, dot.return_x_line(), 190, 447);
+						   font.draw(batch, dot.return_y_line(), 190, 422);
+						   onlyone=false;
+					   }
+				   }
+					   
+				   
 		   batch.end();
 		   
 		   if((seconds+1)<(total_time)){

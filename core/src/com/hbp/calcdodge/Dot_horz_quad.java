@@ -26,4 +26,19 @@ public class Dot_horz_quad extends Dot{
 		   y=k;
 		   x=a*t*t+b*t+c;
 	   }
+	   
+	   @Override
+	   String return_x_line(){
+		   if (b!=0){
+			   return "x = " + a + "t^2 + "+ b + "t + " + c;
+		   }
+		   if (c==0){
+			   return "x = " + a + "t^2 = "+ double_formatted(x);
+		   }
+		   return "x = " + a + "t^2 + "+c;
+	   }
+	   @Override
+	   String return_y_line(){
+		   return "y = " + k;
+	   }
 }

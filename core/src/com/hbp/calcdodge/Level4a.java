@@ -15,7 +15,7 @@ public class Level4a extends GameScreen{
 	   void level_specific_setup(){
 			LEVEL="xdotydashdash";
 			shields=2;
-			 secondlimit=150;
+			 secondlimit=160;
 			 
 			pod_t= new Texture(Gdx.files.internal("cartesian_dodger_L4a.png"));
 		}
@@ -23,15 +23,42 @@ public class Level4a extends GameScreen{
 	   @Override
 	   
 	   void level_specific_attack_pattern(){
-			
+		   if (seconds==10){
+				int z=1;
+				   dots.add(new Dot_horz(-1,z*0.4f,seconds+10));
+				   dots.add(new Dot_horz(0,z*0.4f,seconds+10));
+				   dots.add(new Dot_horz(1,z*0.4f,seconds+10));
+			   }
+		   if (seconds==20){
+				int z=1;
+				   dots.add(new Dot_vert(-1,z*0.5f,seconds+10));
+				   dots.add(new Dot_vert(0,z*0.5f,seconds+10));
+				   dots.add(new Dot_vert(1,z*0.5f,seconds+10));
+			   }
+		   if (seconds==30){
+				int z=-1;
+				   dots.add(new Dot_horz(-1,z*0.4f,seconds+10));
+				   dots.add(new Dot_horz(0,z*0.4f,seconds+10));
+				   dots.add(new Dot_horz(1,z*0.4f,seconds+10));
+			   }
+		   if (seconds==40){
+				int z=-1;
+				   dots.add(new Dot_vert(-1,z*0.5f,seconds+10));
+				   dots.add(new Dot_vert(0,z*0.5f,seconds+10));
+				   dots.add(new Dot_vert(1,z*0.5f,seconds+10));
+			   }
+		   if (seconds%20==0 && seconds>=60 && seconds<=120){
+			   int z1=plusorminus();
+			   int z2=plusorminus();
+			   dots.add(new Dot_vert(-1,z1*0.25f,seconds+20));
+			   dots.add(new Dot_vert(0,z1*0.25f,seconds+20));
+			   dots.add(new Dot_vert(1,z1*0.25f,seconds+20));
+			   dots.add(new Dot_horz(-1,z2*0.2f,seconds+20));
+			   dots.add(new Dot_horz(0,z2*0.2f,seconds+20));
+			   dots.add(new Dot_horz(1,z2*0.2f,seconds+20));
+		   }
 		}
 		
-	   
-	   void horizontal_dagger(int locn, float spear_speed, int first_time){
-		   dots.add(new Dot_horz(locn, spear_speed, first_time));
-		   dots.add(new Dot_horz(locn, spear_speed, first_time+2));
-	   }
-	   
 	   @Override
 	   
 		void level_specific_success(){
