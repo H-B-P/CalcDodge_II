@@ -5,7 +5,7 @@ public class Dot_line extends Dot{
 	float m;
 	float c;
 	   
-	   Dot_line(float speed, float M, float C, float start_time){
+	   Dot_line(float speed, float M, float C, int start_time){
 		   super(C, start_time);
 		   k=speed;
 		   m=M;
@@ -21,15 +21,15 @@ public class Dot_line extends Dot{
 	   
 	   @Override
 	   String return_x_line(){
-		   return "x = " + k + "t = "+double_formatted(x);
+		   return "x = " + double_formatted(k) + "t = "+double_formatted(x);
 	   }
 	   @Override
 	   String return_y_line(){
 		   if (c<0){
-			   return "y = " + m + "x - " + -c;
+			   return "y = " + double_formatted(m) + "x - " + double_formatted(-c);
 		   }
 		   else{
-			   return "y = " + m + "x + " + c;
+			   return "y = " + double_formatted(m) + "x + " + double_formatted(c);
 		   }
 	   }
 }

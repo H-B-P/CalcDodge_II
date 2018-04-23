@@ -113,7 +113,8 @@ public class GameScreen extends MetaScreen {
 	 boolean HAVE_WE_EXPLODED;
 	
 	 Rectangle realityBox;
-	
+	 Rectangle anyBox;
+	 
 	 String ypon;
 	 BitmapFont font;
 	
@@ -124,25 +125,25 @@ public class GameScreen extends MetaScreen {
 	
 	 Rectangle cotestrec;
 	
+	 String level_ident_s;
+	 
 	Sound hitshield;
 	
-	public GameScreen(final CalcDodge gam, boolean play_the_sound) {
+	public GameScreen(final CalcDodge gam, boolean play_the_sound, boolean start_music) {
 		
 		super(gam, play_the_sound);
 		
 		GAMESPEED=200;
 		   
+		level_ident_s="level 0";
 		
+		if (start_music){
+			set_up_music();
+		}
 		
 		 this.game = gam;
-	     
-				bgm=Gdx.audio.newMusic(Gdx.files.internal("MCS_Dampen.mp3"));
-				bgm.setLooping(true);
-				//bgm.setVolume(option_music_volume);
-				bgm.setVolume(0.2f);
-				bgm.play();
 		 
-			    hitshield=Gdx.audio.newSound(Gdx.files.internal("sfx_scronched/bang.mp3"));
+		hitshield=Gdx.audio.newSound(Gdx.files.internal("sfx_scronched/bang.mp3"));
 				
 		 
 		 
@@ -209,6 +210,12 @@ public class GameScreen extends MetaScreen {
 		realityBox.height=240;
 		realityBox.setCenter(160,200);
 		
+		anyBox=new Rectangle();
+		
+		anyBox.width=320;
+		anyBox.height=480;
+		anyBox.setCenter(160,240);
+		
 
 		level_specific_setup();
 		
@@ -267,12 +274,19 @@ public class GameScreen extends MetaScreen {
 		   }
 	}
 	
+	void set_up_music(){
+		bgm=Gdx.audio.newMusic(Gdx.files.internal("Goodnightmare.mp3"));
+		bgm.setLooping(true);
+		bgm.setVolume(0.6f);
+		bgm.play();
+	}
+	
 	void level_specific_success(){
-		game.setScreen(new GameScreen(game, true));
+		game.setScreen(new GameScreen(game, true, true));
 	}
 	
 	void level_specific_failure(){
-		game.setScreen(new GameScreen(game, true));
+		game.setScreen(new GameScreen(game, true, true));
 	}
 	
 	   //---FUNCTIONS---
@@ -298,6 +312,19 @@ public class GameScreen extends MetaScreen {
 			   double a=Math.round(doub*10.0)/10.0;
 			   Float b=(Float)(float)a;
 			   return b.toString();
+		   }
+	    
+	    public String timely_double_formatted(double doub){
+			   double a=Math.round(doub*10.0)/10.0;
+			   double a1=Math.round(doub);
+			   Float b=(Float)(float)a;
+			   String c=b.toString();
+			   if (a==a1){
+				   return c+".0";
+			   }
+			   else{
+				   return c;
+			   }
 		   }
 	   
 	   //---RENDER---
@@ -351,6 +378,12 @@ public class GameScreen extends MetaScreen {
 				   batch.draw(dot_t, dot.rect.x, dot.rect.y);
 		   }
 		   
+		   for(Dot dot: dots) {
+			   if (seconds>dot.t0 && !dot.rect.overlaps(anyBox)){
+				   dots.removeValue(dot, true);
+			   }
+	   }
+		   
 		   if (!HAVE_WE_EXPLODED){
 			   for(Kaboom boom: explosions) {
 				   batch.draw(explosion_t, boom.rect.x-40, boom.rect.y-40);
@@ -398,10 +431,19 @@ public class GameScreen extends MetaScreen {
 				   }
 		   }
 		   
-		   //font.draw(batch, "Time: "+(secondlimit-seconds), 150, 445);
 		   
-				   font.draw(batch, "T = "+double_formatted(total_time), 124, 457);
-				   font.draw(batch, "goal: "+secondlimit, 124, 432);
+				   //font.draw(batch, "T = "+timely_double_formatted(total_time), 124, 457);
+		   font.draw(batch, "- "+ level_ident_s+ " -", 124, 472);
+		   font.draw(batch, "T = "+double_formatted(total_time), 124, 447);
+		   font.draw(batch, "goal: "+secondlimit, 124, 422);
+		   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
 				   boolean onlyone=true;
 				   for (Dot dot: dots){
 					   if (dot.rect.contains(tp_x,tp_y) && onlyone){
@@ -642,8 +684,8 @@ public class GameScreen extends MetaScreen {
 	   //(Still need to do this properly, but leaving most of the images etc
 	   //running doesn't appear to be causing any problems yet.)
 	   public void dispose() {
-		   bgm.stop();
-		   bgm.dispose();
+		   //bgm.stop();
+		   //bgm.dispose();
 	      // dispose of all the native resources
 		   pod_t.dispose();
 

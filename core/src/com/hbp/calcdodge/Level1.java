@@ -5,15 +5,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Level1 extends GameScreen{
-	   
-	   Level1(final CalcDodge gam, boolean play_the_sound){
-		   super(gam, play_the_sound);
+	
+	   Level1(final CalcDodge gam, boolean play_the_sound,boolean start_music){
+		   super(gam, play_the_sound, start_music);
 	   }
 	   
 	   @Override
 	   
 	   void level_specific_setup(){
 			LEVEL="xdotydot";
+			level_ident_s="level 1";
 			shields=2;
 			 secondlimit=80;
 			 
@@ -53,12 +54,12 @@ public class Level1 extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level2(game, true));
+			game.setScreen(new Level2(game, true, false));
 		}
 		
 	   @Override
 	   
 		void level_specific_failure(){
-			game.setScreen(new Level1(game, true));
+			game.setScreen(new Level1(game, true, false));
 		}
 }

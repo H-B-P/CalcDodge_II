@@ -5,14 +5,16 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Level2 extends GameScreen{
 	   
-	   Level2(final CalcDodge gam, boolean play_the_sound){
-		   super(gam, play_the_sound);
+	   Level2(final CalcDodge gam, boolean play_the_sound, boolean start_music){
+		   super(gam, play_the_sound, start_music);
 	   }
 	   
 	   @Override
 	   
 	   void level_specific_setup(){
+		   
 			LEVEL="xdotdotydotdot";
+			level_ident_s="level 2";
 			shields=2;
 			 secondlimit=120;
 				pod_t= new Texture(Gdx.files.internal("cartesian_dodger_L2.png"));
@@ -51,12 +53,12 @@ public class Level2 extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level3(game, true));
+			game.setScreen(new Level3(game, true, false));
 		}
 		
 	   @Override
 	   
 		void level_specific_failure(){
-			game.setScreen(new Level2(game, true));
+			game.setScreen(new Level2(game, true, false));
 		}
 }

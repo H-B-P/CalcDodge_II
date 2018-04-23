@@ -5,18 +5,18 @@ public class Dot_vert_quad extends Dot{
 	   float b;
 	   float c;
 	   
-	   Dot_vert_quad(float xposn, float A, float B, float C, float start_time){
+	   Dot_vert_quad(float xposn, float A, float B, float C, int start_time){
 		   super(xposn, start_time);
 		   a=A;
 		   b=B;
 		   c=C;
 	   }
 	   
-	   Dot_vert_quad(float xposn, float A, float C, float start_time){
+	   Dot_vert_quad(float xposn, float A, float C, int start_time){
 		   this(xposn, A, 0, C, start_time);
 	   }
 	   
-	   Dot_vert_quad(float xposn, float A, float start_time){
+	   Dot_vert_quad(float xposn, float A, int start_time){
 		   this(xposn, A, 0, 0, start_time);
 	   }
 	   @Override
@@ -29,15 +29,15 @@ public class Dot_vert_quad extends Dot{
 	   @Override
 	   String return_y_line(){
 		   if (b!=0){
-			   return "y = " + a + "t^2 + "+ b + "t + " + c;
+			   return "y = " + double_formatted(a) + "t^2 + "+ double_formatted(b) + "t + " + double_formatted(c);
 		   }
 		   if (c==0){
-			   return "y = " + a + "t^2 = "+ double_formatted(y);
+			   return "y = " + double_formatted(a) + "t^2 = "+ double_formatted(y);
 		   }
-		   return "y = " + a + "t^2 + "+c;
+		   return "y = " + double_formatted(a) + "t^2 + "+double_formatted(c);
 	   }
 	   @Override
 	   String return_x_line(){
-		   return "x = " + k;
+		   return "x = " + double_formatted(k);
 	   }
 }

@@ -4,7 +4,7 @@ package com.hbp.calcdodge;
 public class Dot_vert extends Dot{
 	   float m;
 	   
-	   Dot_vert(float xposn, float speed, float start_time){
+	   Dot_vert(float xposn, float speed, int start_time){
 		   super(xposn, start_time);
 		   m=speed;
 	   }
@@ -17,10 +17,10 @@ public class Dot_vert extends Dot{
 	   }
 	   @Override
 	   String return_x_line(){
-		   return "x = " + k;
+		   return "x = " + double_formatted(k);
 	   }
 	   @Override
 	   String return_y_line(){
-		   return "y = " + m + "t = "+double_formatted(y);
+		   return "y = " + double_formatted(m) + "t = "+double_formatted(y);
 	   }
 }

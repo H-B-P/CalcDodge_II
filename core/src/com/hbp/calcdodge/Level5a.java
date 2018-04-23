@@ -12,13 +12,16 @@ public class Level5a extends GameScreen{
 	int q_horz=1;
 	
 	   Level5a(final CalcDodge gam, boolean play_the_sound){
-		   super(gam, play_the_sound);
+		   super(gam, play_the_sound,false);
 	   }
 	   
 	   @Override
 	   
 	   void level_specific_setup(){
+		   
+		   
 			LEVEL="xdotdoty";
+			level_ident_s="level 5'";
 			shields=2;
 			 secondlimit=300;
 			 
@@ -106,7 +109,7 @@ public class Level5a extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level5a(game, true));
+			game.setScreen(new Level1(game, true, false));
 		}
 		
 	   @Override

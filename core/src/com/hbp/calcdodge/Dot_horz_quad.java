@@ -5,18 +5,18 @@ public class Dot_horz_quad extends Dot{
 	   float b;
 	   float c;
 	   
-	   Dot_horz_quad(float yposn, float A, float B, float C, float start_time){
+	   Dot_horz_quad(float yposn, float A, float B, float C, int start_time){
 		   super(yposn, start_time);
 		   a=A;
 		   b=B;
 		   c=C;
 	   }
 	   
-	   Dot_horz_quad(float yposn, float A, float C, float start_time){
+	   Dot_horz_quad(float yposn, float A, float C, int start_time){
 		   this(yposn, A, 0, C, start_time);
 	   }
 	   
-	   Dot_horz_quad(float yposn, float A, float start_time){
+	   Dot_horz_quad(float yposn, float A, int start_time){
 		   this(yposn, A, 0, 0, start_time);
 	   }
 	   
@@ -30,15 +30,15 @@ public class Dot_horz_quad extends Dot{
 	   @Override
 	   String return_x_line(){
 		   if (b!=0){
-			   return "x = " + a + "t^2 + "+ b + "t + " + c;
+			   return "x = " + double_formatted(a) + "t^2 + "+ double_formatted(b) + "t + " + double_formatted(c);
 		   }
 		   if (c==0){
-			   return "x = " + a + "t^2 = "+ double_formatted(x);
+			   return "x = " + double_formatted(a) + "t^2 = "+ double_formatted(x);
 		   }
-		   return "x = " + a + "t^2 + "+c;
+		   return "x = " + double_formatted(a) + "t^2 + "+double_formatted(c);
 	   }
 	   @Override
 	   String return_y_line(){
-		   return "y = " + k;
+		   return "y = " + double_formatted(k);
 	   }
 }

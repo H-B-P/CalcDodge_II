@@ -60,7 +60,11 @@ public class MetaScreen implements Screen { //Regarding implementing vs extendin
 	
 	String pname;
 	
+	
+	
 	public MetaScreen(final CalcDodge gam, boolean play_the_sound) {
+		
+		bgm=Gdx.audio.newMusic(Gdx.files.internal("Goodnightmare.mp3"));
 		
 		hardcoded_opt_packagename="Cartesian";
 		

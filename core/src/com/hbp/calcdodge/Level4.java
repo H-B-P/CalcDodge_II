@@ -11,14 +11,16 @@ public class Level4 extends GameScreen{
 	int q_vert=1;
 	int q_horz=1;
 	
-	   Level4(final CalcDodge gam, boolean play_the_sound){
-		   super(gam, play_the_sound);
+	   Level4(final CalcDodge gam, boolean play_the_sound, boolean start_music){
+		   super(gam, play_the_sound, start_music);
 	   }
 	   
 	   @Override
 	   
 	   void level_specific_setup(){
+		   
 			LEVEL="xy";
+			level_ident_s="level 4";
 			shields=2;
 			 secondlimit=200;
 			 
@@ -86,13 +88,13 @@ public class Level4 extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level5(game, true));
+			game.setScreen(new Level5(game, true, false));
 		}
 		
 	   @Override
 	   
 		void level_specific_failure(){
-			game.setScreen(new Level4(game, true));
+			game.setScreen(new Level4(game, true, false));
 		}
 	   
 }

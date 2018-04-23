@@ -7,11 +7,11 @@ public class Dot {
 	   float x;
 	   float y;
 	   float t;
-	   float t0;
+	   int t0;
 	   
 	   float k;
 	   
-	   Dot(float posn, float start_time){
+	   Dot(float posn, int start_time){
 		   rect=new Rectangle(0,0,40,40);
 		   k=posn;
 		   t0=start_time;

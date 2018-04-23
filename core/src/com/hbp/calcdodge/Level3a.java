@@ -7,12 +7,14 @@ import com.badlogic.gdx.math.MathUtils;
 public class Level3a extends GameScreen{
 	   
 	   Level3a(final CalcDodge gam, boolean play_the_sound){
-		   super(gam, play_the_sound);
+		   super(gam, play_the_sound, false);
 	   }
 	   
 	   @Override
 	   
 	   void level_specific_setup(){
+		   
+		   level_ident_s="level 3'";
 			LEVEL="xdoty";
 			shields=2;
 			 secondlimit=180;
@@ -78,7 +80,7 @@ public class Level3a extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level3a(game, true));
+			game.setScreen(new Level4a(game, true));
 		}
 		
 	   @Override
