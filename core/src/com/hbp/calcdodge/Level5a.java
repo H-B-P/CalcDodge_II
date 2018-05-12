@@ -11,8 +11,8 @@ public class Level5a extends GameScreen{
 	int q_vert=1;
 	int q_horz=1;
 	
-	   Level5a(final CalcDodge gam, boolean play_the_sound){
-		   super(gam, play_the_sound,false);
+	   Level5a(final CalcDodge gam, boolean play_the_sound, boolean start_music){
+		   super(gam, play_the_sound,start_music);
 	   }
 	   
 	   @Override
@@ -115,7 +115,7 @@ public class Level5a extends GameScreen{
 	   @Override
 	   
 		void level_specific_failure(){
-			game.setScreen(new Level5a(game, true));
+			game.setScreen(new Level5a(game, true, false));
 		}
 	   
 }

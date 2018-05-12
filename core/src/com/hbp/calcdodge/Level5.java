@@ -110,7 +110,7 @@ public class Level5 extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level1a(game, true));
+			game.setScreen(new Level1a(game, true, false));
 		}
 		
 	   @Override

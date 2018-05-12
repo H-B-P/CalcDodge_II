@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Level1a extends GameScreen{
 	   
-	   Level1a(final CalcDodge gam, boolean play_the_sound){
-		   super(gam, play_the_sound, false);
+	   Level1a(final CalcDodge gam, boolean play_the_sound, boolean start_music){
+		   super(gam, play_the_sound, start_music);
 	   }
 	   
 	   @Override
@@ -70,12 +70,12 @@ public class Level1a extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level2a(game, true));
+			game.setScreen(new Level2a(game, true, false));
 		}
 		
 	   @Override
 	   
 		void level_specific_failure(){
-			game.setScreen(new Level1a(game, true));
+			game.setScreen(new Level1a(game, true, false));
 		}
 }

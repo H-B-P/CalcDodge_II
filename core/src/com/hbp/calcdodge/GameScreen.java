@@ -83,6 +83,7 @@ public class GameScreen extends MetaScreen {
 	 float pod_ydashdot;
 	
 	 int GAMESPEED;
+	 int GAMESPEED_ORI;
 	
 	String LEVEL;
 	int shields;
@@ -129,13 +130,20 @@ public class GameScreen extends MetaScreen {
 	 
 	Sound hitshield;
 	
+	Dot currently_active_dot;
+	
+	Texture pause_t;
+	
 	public GameScreen(final CalcDodge gam, boolean play_the_sound, boolean start_music) {
 		
 		super(gam, play_the_sound);
 		
-		GAMESPEED=200;
-		   
+		GAMESPEED_ORI=150;
+		GAMESPEED=GAMESPEED_ORI;
+		
 		level_ident_s="level 0";
+		
+		pause_t=new Texture(Gdx.files.internal("pause_symbol.png"));
 		
 		if (start_music){
 			set_up_music();
@@ -275,7 +283,7 @@ public class GameScreen extends MetaScreen {
 	}
 	
 	void set_up_music(){
-		bgm=Gdx.audio.newMusic(Gdx.files.internal("Goodnightmare.mp3"));
+		bgm=Gdx.audio.newMusic(Gdx.files.internal("MCS_Phazer.mp3"));
 		bgm.setLooping(true);
 		bgm.setVolume(0.6f);
 		bgm.play();
@@ -446,7 +454,7 @@ public class GameScreen extends MetaScreen {
 				   
 				   boolean onlyone=true;
 				   for (Dot dot: dots){
-					   if (dot.rect.contains(tp_x,tp_y) && onlyone){
+					   if (dot.rect.contains(tp_x,tp_y) && anyBox.contains(tp_x,tp_y) && onlyone){
 						   font.draw(batch, dot.return_t_line(), 190, 472);
 						   font.draw(batch, dot.return_x_line(), 190, 447);
 						   font.draw(batch, dot.return_y_line(), 190, 422);
@@ -454,6 +462,10 @@ public class GameScreen extends MetaScreen {
 					   }
 				   }
 					   
+				   
+				   if (GAMESPEED==0){
+					   batch.draw(pause_t,0, 0);
+				   }
 				   
 		   batch.end();
 		   
@@ -470,10 +482,27 @@ public class GameScreen extends MetaScreen {
 			   
 			   
 		   }
-		   if (Gdx.input.isKeyPressed(Keys.ESCAPE) || explosionseconds>2){
-			   level_specific_failure();
-
+		   
+		   if (Gdx.input.isKeyJustPressed(Keys.SPACE)){
+			   if (GAMESPEED==0){
+				   GAMESPEED=GAMESPEED_ORI;
+			   }
+			   else{
+				   GAMESPEED=0;
+			   }
+		   }
+		   
+		   
+		   
+		   if (Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			   bgm.stop();
+			   game.setScreen(new SelectScreen(game,true));
 			   
+			   dispose();
+		   }
+		   
+		   if (explosionseconds>2){
+			   level_specific_failure();
 			   dispose();
 		   }
 		   
