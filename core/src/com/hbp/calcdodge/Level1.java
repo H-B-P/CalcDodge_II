@@ -13,6 +13,9 @@ public class Level1 extends GameScreen{
 	   @Override
 	   
 	   void level_specific_setup(){
+		   
+		   
+		   
 			LEVEL="xdotydot";
 			level_ident_s="level 1";
 			shields=2;
@@ -54,12 +57,34 @@ public class Level1 extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level2(game, true, false));
+		   if (prefs.getInteger("LevelsBeat")>0){
+			   bgm.stop();
+			   bgm.dispose();
+			   game.setScreen(new SelectScreen(game, true));
+		   }
+		   else{
+			   bgm.stop();
+			   bgm.dispose();
+			   prefs.putInteger("LevelsBeat",1);
+			   prefs.flush();
+			   game.setScreen(new Level2(game, true, true));
+		   }
+			
 		}
 		
 	   @Override
 	   
 		void level_specific_failure(){
-			game.setScreen(new Level1(game, true, false));
+		   if (prefs.getInteger("LevelsBeat")>0){
+			   bgm.stop();
+			   bgm.dispose();
+			   game.setScreen(new SelectScreen(game, true));
+		   }
+		   else{
+			   bgm.stop();
+			   bgm.dispose();
+			   game.setScreen(new Level1(game, true, true));
+		   }
+			
 		}
 }

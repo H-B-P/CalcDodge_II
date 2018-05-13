@@ -71,12 +71,16 @@ public class Level2a extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level3a(game, true, false));
+		   bgm.stop();
+		   bgm.dispose();
+		   game.setScreen(new SelectScreen(game, true));
 		}
 		
 	   @Override
 	   
 		void level_specific_failure(){
-			game.setScreen(new Level2a(game, true, false));
+		   bgm.stop();
+		   bgm.dispose();
+		   game.setScreen(new SelectScreen(game, true));
 		}
 }

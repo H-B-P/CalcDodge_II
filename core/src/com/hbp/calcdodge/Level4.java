@@ -88,13 +88,35 @@ public class Level4 extends GameScreen{
 	   @Override
 	   
 		void level_specific_success(){
-			game.setScreen(new Level5(game, true, false));
+		   if (prefs.getInteger("LevelsBeat")>3){
+			   bgm.stop();
+			   bgm.dispose();
+			   game.setScreen(new SelectScreen(game, true));
+		   }
+		   else{
+			   bgm.stop();
+			   bgm.dispose();
+			   prefs.putInteger("LevelsBeat",4);
+			   prefs.flush();
+			   game.setScreen(new Level5(game, true, true));
+		   }
+			
 		}
 		
 	   @Override
 	   
 		void level_specific_failure(){
-			game.setScreen(new Level4(game, true, false));
+		   if (prefs.getInteger("LevelsBeat")>3){
+			   bgm.stop();
+			   bgm.dispose();
+			   game.setScreen(new SelectScreen(game, true));
+		   }
+		   else{
+			   bgm.stop();
+			   bgm.dispose();
+			   game.setScreen(new Level4(game, true, true));
+		   }
+			
 		}
 	   
 }

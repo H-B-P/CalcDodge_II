@@ -58,65 +58,24 @@ public class MetaScreen implements Screen { //Regarding implementing vs extendin
 	String hardcoded_opt_packagename;
 	String hardcoded_opt_platform;
 	
-	String pname;
-	
 	
 	
 	public MetaScreen(final CalcDodge gam, boolean play_the_sound) {
 		
 		bgm=Gdx.audio.newMusic(Gdx.files.internal("Goodnightmare.mp3"));
 		
-		hardcoded_opt_packagename="Cartesian";
-		
-		hardcoded_opt_platform="Web";
-		
-		if (hardcoded_opt_packagename.equals("Cartesian")){
-			pname="Cartesian_Preferences";
-		}
-		
-		prefs = Gdx.app.getPreferences(pname);
+		prefs = Gdx.app.getPreferences("dotdash");
 		
 		//System.out.println(prefs.get());
 		
-		if (!prefs.contains("SFX Volume")){
-			prefs.putFloat("SFX Volume", 1.0f);
+		if (!prefs.contains("LevelsBeat")){
+			prefs.putInteger("LevelsBeat", 0);
 			prefs.flush();
-		}
-		if (!prefs.contains("Music Volume")){
-		    prefs.putFloat("Music Volume", 1.0f);
-			prefs.flush();
-		}
-		if (!prefs.contains("Screen Size")){
-			prefs.putString("Screen Size", "Normal");
-			prefs.flush();
-		}
-		if (!prefs.contains("Game Speed")){
-		    prefs.putFloat("Game Speed", 100.0f);
-			prefs.flush();
-		}
-		if (!prefs.contains("Flickering")){
-			prefs.putString("Flickering", "On");
-			prefs.flush();
-		}
-		if (!prefs.contains("Background")){
-			prefs.putString("Background", "Crude");
-			prefs.flush();
-		}
-		
-		if (!prefs.contains("prev_sfx_vol")){
-			prefs.putFloat("prev_sfx_vol", 0f);
-		}
-		if (!prefs.contains("prev_music_vol")){
-			prefs.putFloat("prev_music_vol", 0f);
 		}
 		
 		
 		
 		update_options();
-		
-		
-		//set up a dummy bgm on general principles?
-		//bgm=Gdx.audio.newMusic(Gdx.files.internal("Menu.mp3"));
 		
 		System.out.println(option_flicker);
 		
@@ -189,44 +148,9 @@ public class MetaScreen implements Screen { //Regarding implementing vs extendin
 		}
 	}
 	
-	//---People apparently really want to change volume in-level so ok---
-	
-	void check_for_optionchanges(){
-		if (Gdx.input.isKeyPressed(Input.Keys.O)){
-			if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
-				if (option_music_volume>0.001f){
-					prefs.putFloat("prev_music_vol", option_music_volume);
-					option_music_volume=0f;
-					prefs.putFloat("Music Volume", option_music_volume);
-					bgm.setVolume(option_music_volume);
-				}
-				else{
-					option_music_volume=prefs.getFloat("prev_music_vol");
-					prefs.putFloat("Music Volume", option_music_volume);
-					bgm.setVolume(option_music_volume);
-				}
-				
-			}
-			if (Gdx.input.isKeyJustPressed(Input.Keys.N)){
-				if (option_sfx_volume>0.001f){
-					prefs.putFloat("prev_sfx_vol", option_sfx_volume);
-					option_sfx_volume=0f;
-					prefs.putFloat("SFX Volume", option_sfx_volume);
-				}
-				else{
-					option_sfx_volume=prefs.getFloat("prev_sfx_vol");
-					prefs.putFloat("SFX Volume", option_sfx_volume);
-				}
-				
-			}
-		}
-	}
-	
 	//This function contains the things every screen has to do every step.
 	
 	public void meta_render() {
-		
-		check_for_optionchanges();
 		
 		camera.update();
 		

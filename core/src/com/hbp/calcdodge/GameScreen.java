@@ -134,11 +134,17 @@ public class GameScreen extends MetaScreen {
 	
 	Texture pause_t;
 	
+	Texture S1_t=new Texture(Gdx.files.internal("CONGRATS.png"));
+	Texture S2_t=new Texture(Gdx.files.internal("YOUWON.png"));
+	Texture S3_t=new Texture(Gdx.files.internal("GOODJOB.png"));
+	
+	boolean CONGRATULATE=false;
+	
 	public GameScreen(final CalcDodge gam, boolean play_the_sound, boolean start_music) {
 		
 		super(gam, play_the_sound);
 		
-		GAMESPEED_ORI=150;
+		GAMESPEED_ORI=200;
 		GAMESPEED=GAMESPEED_ORI;
 		
 		level_ident_s="level 0";
@@ -442,7 +448,7 @@ public class GameScreen extends MetaScreen {
 		   
 				   //font.draw(batch, "T = "+timely_double_formatted(total_time), 124, 457);
 		   font.draw(batch, "- "+ level_ident_s+ " -", 124, 472);
-		   font.draw(batch, "T = "+double_formatted(total_time), 124, 447);
+		   font.draw(batch, "T = "+timely_double_formatted(total_time), 124, 447);
 		   font.draw(batch, "goal: "+secondlimit, 124, 422);
 		   
 				   
@@ -454,7 +460,7 @@ public class GameScreen extends MetaScreen {
 				   
 				   boolean onlyone=true;
 				   for (Dot dot: dots){
-					   if (dot.rect.contains(tp_x,tp_y) && anyBox.contains(tp_x,tp_y) && onlyone){
+					   if (dot.rect.contains(tp_x,tp_y) && anyBox.overlaps(dot.rect) && onlyone){
 						   font.draw(batch, dot.return_t_line(), 190, 472);
 						   font.draw(batch, dot.return_x_line(), 190, 447);
 						   font.draw(batch, dot.return_y_line(), 190, 422);
@@ -462,6 +468,21 @@ public class GameScreen extends MetaScreen {
 					   }
 				   }
 					   
+				   
+				   if (CONGRATULATE){
+					   if (seconds>240){
+					   //if (seconds>5){
+						   batch.draw(S1_t, 160-70 ,320-12+65);
+					   }
+					   if (seconds>245){
+					   //if (seconds>10){
+						   batch.draw(S2_t, 160-70 ,320-12+40);
+					   }
+					   if (seconds>250){
+					   //if (seconds>15){
+						   batch.draw(S3_t, 160-70 ,320-12+15);
+					   }
+				   }
 				   
 				   if (GAMESPEED==0){
 					   batch.draw(pause_t,0, 0);
@@ -496,6 +517,7 @@ public class GameScreen extends MetaScreen {
 		   
 		   if (Gdx.input.isKeyPressed(Keys.ESCAPE)){
 			   bgm.stop();
+			   bgm.dispose();
 			   game.setScreen(new SelectScreen(game,true));
 			   
 			   dispose();
@@ -713,8 +735,7 @@ public class GameScreen extends MetaScreen {
 	   //(Still need to do this properly, but leaving most of the images etc
 	   //running doesn't appear to be causing any problems yet.)
 	   public void dispose() {
-		   //bgm.stop();
-		   //bgm.dispose();
+		   
 	      // dispose of all the native resources
 		   pod_t.dispose();
 

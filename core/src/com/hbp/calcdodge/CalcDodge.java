@@ -10,13 +10,21 @@ package com.hbp.calcdodge;
  */
 
 import com.badlogic.gdx.Game;
-
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 
 public class CalcDodge extends Game {
 	
 	public void create() {
+		Preferences prefsII = Gdx.app.getPreferences("dotdash");
 		
-		this.setScreen(new Level1(this, false, true)); //Hand off to game screen.
+		if (prefsII.getInteger("LevelsBeat")>1){
+			this.setScreen(new SelectScreen(this, true)); //Hand off to game screen.
+		}
+		else{
+			this.setScreen(new Level1(this, true, true)); //Hand off to game screen.
+		}
+		
 		
 	}
 
